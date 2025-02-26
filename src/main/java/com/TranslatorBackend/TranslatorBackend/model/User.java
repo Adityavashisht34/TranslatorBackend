@@ -10,12 +10,12 @@ import java.util.List;
 
 @Document(collection = "users")
 public class User {
-
     @Id
     private String userId;
     private String name;
     private String email;
     private String password;
+
 
     @DBRef
     List<Translations> list= new ArrayList<>();

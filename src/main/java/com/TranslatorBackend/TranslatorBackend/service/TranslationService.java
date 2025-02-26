@@ -48,4 +48,26 @@ public class TranslationService {
         List<Translations> translations = translationsRepo.findByUserId(userId);
         return new ResponseEntity<>(translations, HttpStatus.OK);
     }
+
+    public ResponseEntity<String> deleteTranslation(String translationId) {
+        Optional<Translations> translationOptional = translationsRepo.findById(translationId);
+
+        if (translationOptional.isPresent()) {
+            Translations translation = translationOptional.get();
+            Optional<User> userOptional = userService.getUserById(translation.getUserId());
+
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                user.getList().removeIf(t -> t.getTranslationId().equals(translationId));
+                userService.saveUser(user);
+            }
+
+            translationsRepo.deleteById(translationId);
+
+            return new ResponseEntity<>("Translation deleted successfully", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>("Translation not found", HttpStatus.NOT_FOUND);
+    }
+
 }

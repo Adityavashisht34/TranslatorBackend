@@ -22,9 +22,14 @@ public class TranslationController {
         return translationService.saveTranslation(translation, userId);
     }
 
-    // Fetch User's Translation History
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Translations>> getUserTranslations(@PathVariable String userId) {
         return translationService.getTranslationsByUserId(userId);
     }
+
+    @DeleteMapping("/delete/{translationId}")
+    public ResponseEntity<String> deleteTranslation(@PathVariable String translationId) {
+        return translationService.deleteTranslation(translationId);
+    }
+
 }

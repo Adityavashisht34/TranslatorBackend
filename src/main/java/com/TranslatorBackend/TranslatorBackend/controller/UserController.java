@@ -19,7 +19,7 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
-        return new ResponseEntity<>(userService.registerUser(user), HttpStatus.CREATED);
+        return userService.registerUser(user);
     }
 
     @GetMapping()
@@ -33,7 +33,16 @@ public class UserController {
 
     @PostMapping("/email")
     public ResponseEntity<User> getUserByEmail(@RequestBody User user) {
-        return userService.getUserByEmail(user.getEmail(), user.getPassword());
+       return userService.getUserByEmail(user.getEmail(), user.getPassword());
     }
 
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> getPassword(@RequestBody User user){
+        return userService.getPassword(user.getEmail());
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<User> resetPassword(@RequestBody User user){
+        return userService.resetPassword(user);
+    }
 }
